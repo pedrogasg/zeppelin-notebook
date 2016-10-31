@@ -1,0 +1,5 @@
+---
+- hosts: mesos
+  roles:
+    - { role: mesos }
+  become: true
