@@ -6,3 +6,31 @@
   with_items:
     - "mesosphere-zookeeper"
     - "marathon"
+
+- name: Add zookeper url
+  lineinfile:
+    line: "zk://localhost:2181/mesos"
+    dest: "/etc/mesos-master/zk"
+    state: present
+    create: yes
+
+- name: Add quorum number
+  lineinfile:
+    line: "1"
+    dest: "/etc/mesos-master/quorum"
+    state: present
+    create: yes
+
+- name: Add working directory
+  lineinfile:
+    line: "/var/lib/mesos"
+    dest: "/etc/mesos-master/work_dir"
+    state: present
+    create: yes
+
+- name: Add logging directory
+  lineinfile:
+    line: "/var/log/mesos"
+    dest: "/etc/mesos-master/log_dir"
+    state: present
+    create: yes

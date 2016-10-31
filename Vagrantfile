@@ -2,7 +2,7 @@
 # vi: set ft-ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.provision "ansible" do |ansible|
+  config.vm.provision "ansible", run: "always" do |ansible|
     ansible.groups = {
      "mesos" => ["mesos-master-01","mesos-slave-01","mesos-slave-02","mesos-slave-03","mesos-slave-04"],
      "mesos-master" => ["mesos-master-01"],
