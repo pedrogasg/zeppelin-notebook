@@ -6,3 +6,4 @@
 - hosts: mesos-master
   roles:
     - { role: mesos-master }
+  become: true

@@ -34,3 +34,13 @@
     dest: "/etc/mesos-master/log_dir"
     state: present
     create: yes
+
+- name: Start mesos master service
+  service:
+    name: "mesos-master"
+    state: started
+
+- name: Disable mesos slave service
+  service:
+    name: "mesos-slave"
+    enabled: no
