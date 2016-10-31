@@ -47,7 +47,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "mesos-slave-03" do |mesos|
     mesos.vm.hostname = "mesos-slave-03"
     mesos.vm.box = "bento/centos-7.1"
-    mesos.vm.synced_folder "./sync/mesosslave-03/", "/sync"
+    mesos.vm.synced_folder "./sync/mesos-slave-03/", "/sync"
     mesos.vm.provider "virtualbox" do |vm|
       vm.name = "mesos-slave-03"
       vm.cpus = 2

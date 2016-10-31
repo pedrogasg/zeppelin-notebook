@@ -3,3 +3,6 @@
   roles:
     - { role: mesos }
   become: true
+- hosts: mesos-master
+  roles:
+    - { role: mesos-master }
