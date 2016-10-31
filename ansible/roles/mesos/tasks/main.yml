@@ -2,7 +2,7 @@
 - name: Remove hostname from 127.0.0.1
   lineinfile:
     dest: /etc/hosts
-    regexp: "^(.*){{ansible_hostname}} localhost(.*)$" 
+    regexp: "^(.*){{ansible_hostname}} localhost(.*)$"
     line: '\1localhost\2'
     backrefs: yes
     state: present
@@ -13,19 +13,12 @@
     line: "{{ansible_enp0s8.ipv4.address}} {{ansible_hostname}}"
     state: present
 
-- name: Install mesosphere
+- name: Install mesosphere repos
   yum:
-    name: "{{item}}"
+    name: "http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm"
     state: present
-  with_items:
-    - "http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm"
 
-- name: Install mesos and marathon
+- name: Install mesos
   yum:
-    name: "{{item}}"
+    name: "mesos"
     state: present
-  with_items:
-    - "mesos"
-    - "marathon"
-
- 
