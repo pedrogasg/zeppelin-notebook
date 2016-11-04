@@ -21,7 +21,6 @@ Vagrant.configure(2) do |config|
       vm.memory = 1024
     end
     mesos.vm.network "private_network", ip:"192.168.56.60"
-    mesos.vm.network "forwarded_port", guest: 5050, host: 5050
   end
   config.vm.define "mesos-slave-01" do |mesos|
     mesos.vm.hostname = "mesos-slave-01"
@@ -63,7 +62,7 @@ Vagrant.configure(2) do |config|
     mesos.vm.provider "virtualbox" do |vm|
       vm.name = "mesos-slave-04"
       vm.cpus = 2
-      vm.memory = 1024
+      vm.memory = 3072
     end
     mesos.vm.network "private_network", ip:"192.168.56.64"
   end

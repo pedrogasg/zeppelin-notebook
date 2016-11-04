@@ -1,0 +1,26 @@
+---
+- name: Create spark directory
+  file:
+    state: directory
+    dest: /opt/zeppelin
+
+- name: Donwload the tarball
+  get_url:
+    url: http://archive.apache.org/dist/zeppelin/zeppelin-0.6.1/zeppelin-0.6.1-bin-netinst.tgz
+    dest: /tmp/zeppelin
+    checksum: md5:9c8aea3174ff1a61261a6d4fff6d80a6
+
+
+- name: Untar spark tarball
+  unarchive:
+    src: /tmp/zeppelin
+    dest: /opt/zeppelin
+    copy: no
+
+- name: Copy acls to mesos master
+  copy:
+    src: "zeppelin-env.sh"
+    dest: "/etc/profile.d/zeppelin-env.sh"
+    owner: root
+    group: root
+    mode: 0664

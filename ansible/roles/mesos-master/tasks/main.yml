@@ -7,7 +7,18 @@
     - "mesosphere-zookeeper"
     - "marathon"
 
-- name: Add zookeper url
+- name: Erase default mesos config
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/mesos"
+    - "/etc/mesos-slave"
+    - "/etc/default/mesos"
+    - "/etc/default/mesos-master"
+    - "/etc/default/mesos-slave"
+
+- name: Add zookeper url for mesos
   lineinfile:
     line: "zk://localhost:2181/mesos"
     dest: "/etc/mesos-master/zk"
@@ -35,10 +46,33 @@
     state: present
     create: yes
 
-- name: Start mesos master service
+- name: Copy acls to mesos master
+  copy:
+    src: "acls.json"
+    dest: "/etc/mesos-master/acls"
+
+- name: Add master url for marathon
+  lineinfile:
+    line: "zk://localhost:2181/mesos"
+    dest: "/etc/marathon/conf/master"
+    state: present
+    create: yes
+
+- name: Add zookeper url marathon
+  lineinfile:
+    line: "zk://localhost:2181/marathon"
+    dest: "/etc/marathon/conf/zk"
+    state: present
+    create: yes
+
+- name: Start zookeeper and mesos master service
   service:
-    name: "mesos-master"
+    name: "{{ item }}"
     state: started
+  with_items:
+    - "zookeeper"
+    - "mesos-master"
+    - "marathon"
 
 - name: Disable mesos slave service
   service:

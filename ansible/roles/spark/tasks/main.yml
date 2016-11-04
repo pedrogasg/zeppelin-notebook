@@ -1,0 +1,32 @@
+---
+
+- name: Create spark directory
+  file:
+    state: directory
+    dest: /opt/spark
+
+- name: Donwload the tarball
+  get_url:
+    url: http://d3kbcqa49mib13.cloudfront.net/spark-2.0.1-bin-hadoop2.7.tgz
+    dest: /tmp/spark
+    checksum: md5:43aa7c28b9670e65cb4f395000838860
+
+- name: Untar spark tarball
+  unarchive:
+    src: /tmp/spark
+    dest: /opt/spark
+    copy: no
+    creates: /opt/spark/spark-2.0.1-bin-hadoop2.7
+
+- name: Copy acls to mesos master
+  copy:
+    src: "spark-env.sh"
+    dest: "/etc/profile.d/spark-env.sh"
+    owner: root
+    group: root
+    mode: 0664
+
+- name: Copy acls to mesos master
+  copy:
+    src: "spark-defaults.conf"
+    dest: "/opt/spark/spark-2.0.1-bin-hadoop2.7/conf/spark-defaults.conf"

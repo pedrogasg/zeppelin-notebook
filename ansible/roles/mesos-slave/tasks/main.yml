@@ -1,0 +1,49 @@
+---
+- name: Install java
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "java"
+
+- name: Erase default mesos config
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/mesos"
+    - "/etc/mesos-master"
+    - "/etc/default/mesos"
+    - "/etc/default/mesos-master"
+    - "/etc/default/mesos-slave"
+
+- name: Add master url for mesos-slave
+  lineinfile:
+    line: "zk://192.168.56.60:2181/mesos"
+    dest: "/etc/mesos-slave/master"
+    state: present
+    create: yes
+
+- name: Add working directory
+  lineinfile:
+    line: "/var/lib/mesos"
+    dest: "/etc/mesos-slave/work_dir"
+    state: present
+    create: yes
+
+- name: Add logging directory
+  lineinfile:
+    line: "/var/log/mesos"
+    dest: "/etc/mesos-slave/log_dir"
+    state: present
+    create: yes
+
+- name: Start zookeeper and mesos master service
+  service:
+    name: "mesos-slave"
+    state: started
+
+- name: Disable mesos slave service
+  service:
+    name: "mesos-master"
+    enabled: no
